@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Exoplanet Visualisation</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Exoplanet Visualisation</a>
+            </div> -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#introduction">Introduction</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#relatedwork">Related Work</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#visualqueries">Visual Queries</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#design">Design Iterations</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#analysis">Strengths and Weaknesses</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#conclusion">Conclusion</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#worksplit">Work Split</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#bibliography">Bibliography</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Section -->
+    <section id="intro" class="link-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <a href="..\Exoplanet visualisation website\d3\Final_Implementation.html"><h2>Exoplanet Visualisation</h2></a>
+                    <p><center>By Josh Buchalter, Daniel Grindlay and Shaun Maxwell</center></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="introduction" class="intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Introduction</h2>
+                    <p>Exoplanets are planets that are located outside of our solar system and orbit stars other than the Sun. Since 1992, over two thousand planets have been discovered through various detection techniques. The majority of these were found using NASA’s Kepler space telescope. There are many factors that influence the creation of a planet such as its orbiting distance, its composition and the temperature of its host sun. This allows for many different classifications of exoplanets with their own interesting features and properties in our galaxy.</p>
+                    <p>There are a number of reasons why searching for new exoplanets and identifying their properties is important. Firstly, exoplanets that lie in the habitable zone (the distance from the host star which allows liquid water to form on the planet’s surface) are more likely to support life. By observing exoplanets, we may gain insight into the formation of our own solar system. Finally, at some point in the distant future we may have to leave Earth behind and find another planet that can support us.</p>
+                    <p>Current visualisations and infographics lack the ability to provide viewers with detailed information while maintaining an overview of the data. Most of the graphics found do not include any characteristics of exoplanets and therefore do not allow for easy comparisons. It is thus impossible to properly interrogate the data and thoroughly learn about exoplanets using current visualisations.</p>
+                    <p>All of the data we used was taken from NASA’s exoplanet archive found at <a href="http://exoplanetarchive.ipac.caltech.edu/">exoplanet archive</a>. This is a database of all confirmed exoplanets containing information on their characteristics, their host star and how they were discovered.</p>
+                    <p>Our visualisation is targeted at students and academics that wish to learn more about exoplanets. The visualisation will provide them with the opportunity to see an overview of exoplanets most similar to Earth, enable them to interactively drill down into specific details of each exoplanet and compare them with one another. The aim of our visualisation is to provide users with interesting information on exoplanets that is easy to access, query and compare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="relatedwork" class="services-section" style="line-height:">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Related Work</h2>
+                    <h3>Static visualisations</h3>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\exopolanets.jpg" alt="StaticExoplanet" style="width:80%;height:80%;">
+                      <figcaption>Figure 1 - Exoplanet visualisation from Wired magazine [1].</figcaption>
+                    </figure>
+
+                    <br></br>
+                    <p>The first static graphic reviewed was the exoplanet graphic printed in Wired magazine’s February 2011 edition. It contains the information of a number of exoplanets and succeeds in displaying a large amount of data in a space-efficient way, without overwhelming the reader. The visualisation displays the temperature, distance and travel time from Earth for each exoplanet, as well as a short description and an overview of the different detection methods used to locate them.</p>
+                    <p>We believe that the main strength of this graphic is its choice of data which is interesting to a wide audience of viewers. The colour scheme used (white information on a black background) is reminiscent of space along with the use of circles to depict planets helps with viewers gist perception.</p>
+                    <p>A weakness of the infographic is that it can only display information on a limited number of exoplanets. In contrast, we want to incorporate the data of at least one hundred planets. Another shortfall is its use of colour with respect to the detection methods and temperature gradient. The detection methods are not linked to the main exoplanets, but rather are only used in the bar graph in the right-hand corner. Similarly, the temperature gradient colours are never used outside of the y-axis.</p>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\staticinfographic.jpg" alt="StaticExoplanet" style="width:60%;height:60%;">
+                      <figcaption>Figure 2 - Exoplanet using a radial wheel to structure information [2].</figcaption>
+                    </figure>
+
+                    <br></br>
+                    <p>This visualisation is effective at conveying interesting and detailed information about a small number of exoplanets and allows comparisons to be made easily. However, there are flaws with its use of colour and a limit to the number of exoplanets incorporated in the graphic.</p>
+                    <p>This static infographic displays the information of twenty exoplanets in a radial wheel. It shows the mass in terms of Earth masses, a temperature category and the distance from Earth of each exoplanet.</p>
+                    <p>The stand-out feature of this visualisation is its use of lines rotating around a centre point to represent exoplanets, instead of individual circles on an axis. This is similar to the path a planet makes when orbiting its host star and adds novelty to the graphic. The use of three primary colours for temperature categories is effective, but may be difficult to discern for red-green colour blind viewers.</p>
+                    <p>Like Wired’s exoplanet graphic, it has a limit to the number of exoplanets it can realistically display without there being overlapping lines. While the use of concentric lines to represent planets is an attention-grabbing feature, using circles instead will allow for more rapid gist perception.</p>
+                    <br></br>
+                    <h3>Interactive visualisations</h3>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Interactive1.PNG" alt="StaticExoplanet" style="width:100%;height:100%;">
+                      <figcaption>Figure 3 - Interactive orbiting exoplanet visualisation [3].</figcaption>
+                    </figure>
+                    <br></br>
+                    <p>This moving visualisation structures its exoplanets by having them orbiting around a sun as a representation of how they would orbit their host stars. It contains information about the temperature, radius and the distance that the exoplanet orbits around the star.</p>
+                    <p>The strength of this visualisation is the unique way in which the exoplanets are placed. The orbiting exoplanets provide information on how far they are from their star and the speed at which they orbit. The motion of the exoplanets also helps with gist perception and holds the viewer’s attention. The use of highlights for hovering over planets and showing their orbits is very effective at giving feedback to the user. We thought we should incorporate a similar design into our own visualisation.</p>
+                    <p>While the motion is able to draw the attention of viewers, it also hinders their ability to compare exoplanets to one another. It is sometimes difficult to tell the temperatures of the exoplanets as they are all the same intensity. </p>
+                    <p>Overall, the visualisation is effective at showing a small number of exoplanets and their individual statistics. However though the motion is attention-grabbing, it does make comparisons very difficult.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Queries Section -->
+    <section id="visualqueries" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Visual Queries</h2>
+                    <p>Below is a list of visual queries that our visualisation supports in order of importance. We believe that these queries are the most likely to be asked by viewers wanting to learn more about exoplanets.</p>
+                    <ul>
+                        <li>What is the distance to the closest habitable exoplanet?</li>
+                        <li>How do exoplanets differ in characteristics compared to Earth in terms of temperature, gravity and size?</li>
+                        <li>What is the most effective detection method for discovering exoplanets?</li>
+                        <li>When were the closest and most habitable exoplanets discovered?</li>
+                        <li>How similar are the majority of the closest exoplanets?</li>
+                        <li>How do exoplanets differ from one another?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Iterations -->
+    <section id="design" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Design Iterations</h2>
+                    <p>The design process consisted of three iterations where after the first and second stages feedback was given and the appropriate improvements to the design were made. Before the initial model was even conceptualised, the idea was to create a visualisation that gave viewers the chance to learn as much as possible about exoplanets from a single interactive graphic.</p>
+                    <h3>Initial design</h3>
+
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Visualisation Iteration 1_2.jpg" alt="Iteration1" style="width:80%;height:80%;">
+                      <figcaption>Figure 4 - First design overview with selected planets.</figcaption>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Backup_of_Visualisation Iteration 1_3.jpg" alt="Iteration2" style="width:80%;height:80%;">
+                      <figcaption>Figure 5 - First design showing mouse over tooltip.</figcaption>
+                    </figure>
+
+                    <br></br>
+                    <p>The aim of our first design was to get a rough idea of how we wanted the visualisation to look and what elements we would use to display our data. This initial layout has been kept throughout the design process, as we believed it was able to support all of our visual queries.</p>
+                    <p>The main component of the visualisation is a scatterplot graph which fills most of the available space. This is where the individual exoplanets are plotted. The x-axis of the graph is the distance of the planet from Earth and the y-axis is its Earth Similarity Index (ESI). A planet’s ESI is a measure of how similar the planet is to Earth. We found that this was the best way to support our most important visual query, “What is the distance to the closest, most-habitable exoplanet?”</p>
+                    <p>To the left of the scatterplot is an interface that allows the user to filter the data and change the x-axis of the graph. Radio buttons are used for this implementation. Users are able to filter the data by detection method and change the values of the x-axis between lightyears, parsec and generations.</p>
+                    <p>Below the main window are three bar graphs showing the radius and temperature of Earth, as well as the weight of an average person. When a planet is selected, its details get added to the bar graphs allowing for easy comparisons and removed when deselected.</p>
+                    <p>The last element in our initial design is a pop-up window containing information such as radius, the number of Earth days in one year and the name of the exoplanet. This is displayed when the user mouses over the planet.</p>
+                    <p>The feedback we received on this design was that we did not have enough dimensions of data on the scatterplot itself. While the bar graphs add extra information for each exoplanet, there needed to be more data shown using different feature channels. This design does not utilise colours or texture, and has a limited number of symbols. An idea given during the feedback was to classify the exoplanets into different sizes in order to show the radius of the planets in an intuitive manner. The viewer consensus was that the blue background of the interface to the left did not fit with the rest of the visualisation.</p>
+                    <h3>Second design</h3>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Iteration2Overview.png" alt="Iteration1" style="width:80%;height:80%;">
+                      <figcaption>Figure 6 - Second design of scatterplot graph with fisheye lense.</figcaption>
+                    </figure>
+                    <br></br>
+                    <p>Building on the feedback we received from the first design, we made many improvements to our visualisation that would allow it to more effectively support our visual queries. The first major change we made was to incorporate more information into the scatterplot graph. Instead of being meaningless blue dots, each exoplanet is represented by a circle with a specific radius and colour. A red-to-blue colour gradient was chosen and is used to indicate the surface temperature of each planet, while the radius of the circle indicates the size category of the planet. Both of these changes meant that users would be able to more easily see the characteristics of the planets, without having to read any numbers.</p>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Iteration2Filter.png" alt="Iteration3" style="width:80%;height:80%;">
+                      <figcaption>Figure 7 - Timeslider with transparent filter.</figcaption>
+                    </figure>
+                    <br></br>
+                    <p>A timeline slider was an additional feature we implemented during the second iteration that allowed users to filter the exoplanets by their discovery dates. Exoplanets discovered after the date on the slider appeared transparent on the graph, which still provided an overview of the total number of planets even while filtered.</p>
+                    <p>There was negative feedback for both the bar graphs and the interface concerning their appearance. The interface now uses a similar colour scheme to the rest of the visualisation, while still appearing separate. This gives it a visual que that it is attached to the scatterplot graph. The symbols representing the different detection methods were also changed to white, making them clearer. This made the symbols stand out against the interface background more. </p>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Iteration2Bars.PNG" alt="Iteration2" style="width:80%;height:80%;">
+                      <figcaption>Figure 8 - Second design with selected exoplanets and bar graphs.</figcaption>
+                    </figure>
+                    <br></br>
+                    <p>There were two major changes to the bar graph area of the visualisation. Firstly, there was no method of connecting a specific bar to a chosen exoplanet in the first design. Now when an exoplanet is selected, it is surrounded by a unique colour linked to a bar of the same colour appearing in the chart.</p>
+                    <p>Due to the addition of different feature channels displaying information, a legend was attached to the scatterplot graph. It contains the colour gradient used to show surface temperature, the current detection method selected and the size categories of the exoplanets. The legend provides all of the necessary information needed for viewers to understand the graphs. </p>
+                    <p>An issue that we found during the second iteration of our design was that when real exoplanet data was added to the graph there is a lot of overlap and occlusion of planets. A zooming fish-eye function was implemented to fix this issue, scaling the axes of the graph around the mouse cursor.</p>
+
+                    <p>We received a lot of positive feedback on our second iteration with regard to our overall design and the functionality that it offered. However, there were minor changes that had to be made with regard to the appearance of the graphs and interface. The colours used for the temperature gradient and the unique bar graph colours were described as jarring. There was also a problem with the fish eye zoom where the axis numbers were bunching together at the edges and overlapping. We were also told that the time slider was not as noticeable as it should have been, and that the colour of the interface did not work well with the rest of the design. Our use of symbols and textures was also said to be lacking, as it could aid viewers in more rapidly answering visual queries.</p>
+                    <h3>Final design</h3>
+                    <a href="..\Exoplanet visualisation website\d3\Final_Implementation.html"><p>Link to visualisation</p></a>
+                    <p>All of the adjustments made to the design based on the feedback from the second presentation had the goal of making information more apparent and easy to see.</p>
+                    <p>The temperature colour gradient was changed so that the chromatic contrast between the circles and the graph background is greater making them clearer to viewers. A light blue to bright red was chosen as these are intuitive colours for hot and cold. The blue colour's intensity was lowered to make it less jarring. A background was added to the timescale slider as it did not stand out enough from the black colouring of the visualisation.</p>
+                    <p>The interface was also changed and now indicates the size of the circles that represent each of the categories of exoplanets. In addition, the text on the time scale has been updated to be more visually pleasing. The filter option now removes exoplanets from the scatterplot graph instead of changing their colour to white. This is more suitable for filtering data on the graph.</p>
+                    <p>It was not possible to implement the fish eye zoom without overlapping axis numbers. Instead, a simpler square zoom function is used so that users can more clearly see overlapping exoplanet information. This zoom function is also more intuitive than the last as it does not required keyboard input for pausing.</p>
+                    <p>A recurring problem we encountered was how to use different shapes and textures in an effective way. It was not possible to use textures for the exoplanet circles, as they could not be seen clearly on smaller planets, and other shapes are not as intuitive for representing planets. When selecting an exoplanet, a fixed-size square now appears around the circle with a specific colour and texture. An identical bar is then added to the charts for comparisons. This change means that users will be able to quickly link the planets they are comparing to their values in the bar graphs, and help them answer any visual queries they may have.</p>
+                    <p>In order to make information clearer to the viewers the tool tip was improved and the formatting changed. For the same purpose line indicators appear when mousing over exoplanets between the planet and the axes.</p>
+                    <h3>Overview of final design</h3>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\10 Things Selected.PNG" alt="Iteration3" style="width:80%;height:80%;">
+                      <figcaption>Figure 9 - Final design overview with planets selected.</figcaption>
+                    </figure>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Mouse-Over Zoom Tooltip.PNG" alt="Iteration3" style="width:80%;height:80%;">
+                      <figcaption>Figure 10 - Final design with mouse over and axis indicators.</figcaption>
+                    </figure>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\2 Other Planet Filters and Parsecs Scale.PNG" alt="Iteration3" style="width:80%;height:80%;">
+                      <figcaption>Figure 11 - Final design with filters applied.</figcaption>
+                    </figure>
+                    <br></br>
+                    <figure>
+                      <img src="..\Exoplanet visualisation website\Screenshots\Slider.PNG" alt="Iteration3" style="width:80%;height:80%;">
+                      <figcaption>Figure 12 - Final design with demonstration of time slider.</figcaption>
+                    </figure>
+                    <br></br>
+                    <p>The scatterplot graph is where most of the exoplanet data is placed in the visualisation. It utilises a number of feature channels in order to display information. Firstly the colour of each circle represents the exoplanet’s surface temperature. The y-axis is the similarity of the exoplanet to Earth which can be seen at the top left of the graph. The x-axis is the distance between Earth and the exoplanet. The radius of the circle represents the exoplanets size category from Jovian to Terran. </p>
+                    <p>The control interface to the left of the visualisation allows the viewer to filter and edit the exoplanet data. The exoplanets can be filtered by size and detection method. Exoplanets that do not fall into the selected filters are removed from the scatterplot graph. The interface also allows users to chang the distance values of the x-axis between light years, parsec and generations.</p>
+                    <p>The purpose of the bar charts to the right of the visualisation is to allow for easy comparison between exoplanets. When exoplanets are selected on the scatterplot graph a textured coloured square appears behind the circle with a corresponding bar appearing in the char area. This visually links the two elements together and allows viewers to see which exoplanets they have selected.</p>
+                    <p>There are three different ways in which users are able to interact with the visualisation. The first is when mousing over the exoplanet circles on the scatterplot graph a tooltip appears providing more detailed information on the planet. The second interaction is using the mouse to select exoplanets for comparisons using the bar charts. Lastly the mouse wheel enables viewers to zoom into scatterplot graph.</p>
+                    <p>The time slider below the scatterplot graph filters the exoplanets by the data they were discovered. When moving the slider backwards exoplanets that have not yet been discovered at the current date are made transparent giving viewers a representation of the whole while filtering the information.</p>
+                    <h3>Answering visual queries</h3>
+                    <p><i>What is the distance to the closest habitable exoplanet?</i> The closest habitable exoplanets can easily be seen towards the top left corner of the scatterplot graph.</p>
+                    <p><i>How do exoplanets differ in characteristics compared to Earth in terms of temperature, gravity and size?</i> The different aspects of each exoplanet are clearly displayed using various feature channels as well as detailed information on demand.</p>
+                    <p><i>What is the most effective detection method for discovering exoplanets?</i> Exoplanet information on the scatterplot graph can be filtered according to detection method.</p>
+                    <p><i>When were the closest and most habitable exoplanets discovered?</i> The timeline slider is able to filter the exoplanets by the date they were discovered, making planets not yet found transparent.</p>
+                    <p><i>How habitable are the majority of the closest exoplanets to Earth?</i> This can rapidly be determined by looking at the exoplanets with low ESI values.</p>
+                    <p><i>How do different exoplanets differ from one another?</i> It is easy to compare a number of different exoplanets by adding them to the bar char element.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="analysis" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Strengths and Weaknesses</h2>
+                    <p>Our visualisation provides viewers with an opportunity to learn about exoplanets in an accessible and unique way. There is both a broad overview of information as well as details for those wanting to drill down into the data. We believe that our design supports all of the visual queries that we wanted to answer. Our visualisation is able to make exoplanet data accessible to viewers by providing them with the means to filter, zoom into and compare planets. The information is displayed in such a way that feature channels such as colour, size, shape, texture and transparency are linked to a unique dimension of data allowing users to quickly answer visual queries and allows them to feature tune their searches.</p>
+                    <p>A limitation of our design is the low number of exoplanets that can be displayed without too much occlusion occurring and the scatterplot becoming overwhelming. Another weakness is that only ten exoplanets can be directly compared without running out of distinct colours and textures to link the bar graphs to different planets. When selecting exoplanets to compare them, the square that is used to surround them can be occluded by other planets. This requires users to zoom into the scatterplot graph in order to see which exoplanets have been selected. It is not possible to see both the full scatterplot graph and the bar charts on an average size screen, making it difficult to compare certain information.</p>
+                    <p>Most of the difficulties arose from implementing the design using Javascript and the D3 library, as no one in the team had experience with either of them. A difficulty that we encountered during the design process was how to position each of the exoplanets on our main element in an interesting way. Ideas like the position in the Milky Way galaxy and how they are viewed from Earth were considered. This problem was solved by using the ESI and distance from Earth as axes for a scatterplot graph. Another difficulty we encountered was the amount of occlusion experienced when displaying many exoplanets. We had to compromise on the sizes used for the circles representing planets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusion" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Conclusion</h2>
+                    <p>We believe that after a number of design iterations, our visualisation is capable of providing viewers with a unique way of learning about exoplanets. The design allows users to answer all of our intended visual queries in an interactive implementation that is intuitive to use and provides visual feedback to the viewer. All concerns brought up during the second iteration have been addressed and the visualisation improved with regard to appearance and to the immediate apparentness of information.</p>
+                    <p>As with any design, there is room for improvement. For future work, we would like to incorporate more functionality into the visualisation. This could be functionality such as animating the time slider with a play and pause button, or being able to choose between different x and y axes in order to restructure the scatterplot for different visual queries. If possible, we would like to be able to display more exoplanets without as much occlusion and also add a search bar for finding specific planets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="worksplit" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Work Split</h2>
+                    <p>Starting the project there were no clear tasks assigned to different team members. Everyone participated in design discussions and meetings, providing valuable input. Once the initial design was decided upon, each person worked on different elements of the visualisation. This was an efficient method that allowed a full implementation of the design to be completed.</p>
+                    <h3>Tasks completed:</h3>
+                    <p>Josh Buchalter - planet sizes, interface, zooming, intersect indicators, icons</p>
+                    <p>Daniel Grindlay - web report and timeline slider</p>
+                    <p>Shaun Maxwell - bar charts, scatterplot graph, temperature scales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bibliography" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Bibliography</h2>
+                    <p>1. McCandless, David. Infoporn: An exoplanet atlas. Wired.co.uk. [Online] 07 January 2011. http://www.wired.co.uk/magazine/archive/2011/02/start/infoporn/viewgallery/264755.</p>
+                    <p>2. Glaubauf. Exoplanets - Infographic. Behance. [Online] 11 August 2014. https://www.behance.net/gallery/18977429/Exoplanets-Infographic.</p>
+                    <p>3. Bremer, Nadieh. Exoplanets. GitHub. [Online] http://nbremer.github.io/exoplanets/.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Scrolling Nav JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
+</body>
+
+</html>

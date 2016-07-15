@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="utf-8">
+    <style>
+
+        body {
+          font: 15px sans-serif;
+          background-color: black;
+        }
+
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: grey;
+          opacity: 0.5;
+          shape-rendering: crispEdges;
+        }
+
+        .xValAxis path,
+        .xValAxis line {
+          fill: none;
+          stroke: grey;
+          opacity: 0.2;
+          shape-rendering: crispEdges;
+        }
+
+        .axis .minor {
+            fill: none;
+            stroke: red;
+            shape-rendering: crispEdges;
+        }
+
+        .x.label,
+        .y.label {
+            fill: white;
+            font-size: 18px;
+        }
+
+        .x.axis path{
+            stroke: black;
+        }
+
+        .x.axis.labels g.tick text,
+        .y.axis g.tick text {
+            fill:white;
+            font-size: 12px;
+        }
+
+        .x.axis.ticks text {
+            fill: black
+        }
+
+        .legend.axis path,
+        .legend.axis line {
+          fill: none;
+          stroke: white;
+          shape-rendering: crispEdges;
+        }
+
+        #header {
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid black;
+        }
+
+        #controls-panel {
+            width: 245px;
+            height: 800px;
+            float: left;
+            border: 1px solid white;
+        }
+
+        .control-interface {
+            width: inherit;
+            height: calc(800px/3 - 2px);
+            background-color: rgba(102, 102, 153, 0.5);
+            float: left;
+            border: 1px solid black;
+            text-indent: 10px;
+            font-size: 18px;
+            color: white;
+        }
+
+        .control-interface img {
+            padding-left: 5px;
+            padding-right: 8px;
+            width:25px;
+            height:25px;
+            vertical-align: middle;
+        }
+
+        .control-interface label {
+            text-align: left;
+        }
+
+        .main-chart {
+            width: 1010px;
+            height: 800px;
+            float: left;
+            border: 1px solid white;
+        }
+
+        .main-chart .tAxis-area g.tick text{
+            fill: white;
+            font-size: 18px;
+        }
+
+        .t.axis.label {
+            font-size: 18px;
+        }
+
+        .lk-area g.legend.axis text {
+            font-size: 14px;
+            fill: white;
+        }
+
+        #other-charts {
+            background-color:black;
+            color:white;
+            clear:both;
+            text-align:center;
+            padding:5px;
+        }
+
+        .radii-comp,.weight-comp,.year-comp {
+            width: 416px;
+            height: 300px;
+            border: 1px solid white;
+        }
+
+        .barYaxis path,
+        .barYaxis line {
+          fill: none;
+          stroke: white;
+          shape-rendering: crispEdges;
+        }
+        .barYaxis text {
+          font-family: sans-serif;
+          font-size: 11px;
+          fill: white;
+        }
+        .massYaxis path,
+        .massYaxis line {
+          fill: none;
+          stroke: white;
+          shape-rendering: crispEdges;
+        }
+        .massYaxis text {
+          font-family: sans-serif;
+          font-size: 11px;
+          fill: white;
+        }
+        .legend.axis text {
+          font-size: 13px;
+        }
+        .timeYaxis path,
+        .timeYaxis line {
+          fill: none;
+          stroke: white;
+          shape-rendering: crispEdges;
+        }
+        .timeYaxis text {
+          font-family: sans-serif;
+          font-size: 11px;
+          fill: white;
+        }
+        .d3-tip {
+          line-height: 1;
+          font-weight: bold;
+          font-size: 20px;
+          padding: 10px;
+          background: rgba(255, 102, 0, 0.5);
+          color: #fff;
+          border-radius: 2px;
+          white-space: pre;
+        }
+
+        .tAxis-area {
+          background: rgba(102, 102, 153, 0.5);
+          margin-left: 4%;
+
+        }
+
+        .t.axis text {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .t.axis .halo {
+          stroke: white;
+          stroke-width: 4px;
+          stroke-linecap: round;
+        }
+
+        .slider .handle text {
+          fill: white;
+          font-size: 18px;
+          padding-left: 5px;
+          font-family: "Times New Roman", Times, serif;
+        }
+    </style>
+    <head>
+        <title>Interactive Exoplanet Map</title>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Interactive Exoplanet Map</h1>
+        </div>
+        <div id="controls-panel">
+            <div class="control-interface" >
+                <h2>Time/Distance Scale</h2>
+                <input name="distance" type="radio" value="ly" id="distance-scale-ly" checked><label for="distance-scale-ly">Light Years</label><br><br>
+                <input name="distance" type="radio" value="pc" id="distance-scale-pc" unchecked><label for="distance-scale-pc">Parsecs</label><br><br>
+                <input name="distance" type="radio" value="generations" id="distance-scale-generations" unchecked><label for="distance-scale-generations">Generations</label>
+            </div>
+
+            <div class="control-interface">
+                <h2>Detection Method</h2>
+                <input name="detection" type="checkbox" value="Transit" id="detection-scale-transit" checked><img src="096-256.png" alt="CFI"/><label for="detection-scale-transit">Transit</label><br><br>
+                <input name="detection" type="checkbox" value="Radial Velocity" id="detection-scale-rv" checked><img src="solar_system-512.png" alt="CFI"/><label for="detection-scale-rv">Radial Velocity</label><br><br>
+            </div>
+
+            <div class="control-interface size">
+                <h2>Planet Size Filter</h2>
+                <input name="size" type="checkbox" value="Jovian" id="planet-size-filter-J" checked><label for="planet-size-filter-J">Jovian</label><br><br>
+                <input name="size" type="checkbox" value="Neptunian" id="planet-size-filter-J" checked><label for="planet-size-filter-J">Neptunian</label><br><br>
+                <input name="size" type="checkbox" value="Superterran" id="planet-size-filter-J" checked><label for="planet-size-filter-J">Superterran</label><br><br>
+                <input name="size" type="checkbox" value="Terran" id="planet-size-filter-J" checked><label for="planet-size-filter-J">Terran</label><br><br>
+            </div>
+        </div>
+
+        <div class="main-chart">
+            <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+            <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+            <script src="http://riccardoscalco.github.io/textures/textures.min.js"></script>
+            <script>
+                //Set width and height to container's size
+                var parentWidth = d3.select(".main-chart").node().getBoundingClientRect().width;
+                var parentHeight = d3.select(".main-chart").node().getBoundingClientRect().height;
+
+                //Set width and height of scatter plot
+                var scatterWidth = 901;
+                var scatterHeight = 693;
+
+                //Introduce the scatter margin
+                var scatterMargin = {top: 20, right: 20, bottom: 50, left: 40},
+                scatterWidth = scatterWidth - scatterMargin.left - scatterMargin.right,
+                scatterHeight = scatterHeight - scatterMargin.top - scatterMargin.bottom;
+
+                //Set width and height of key/legend area
+                var lkaWidth = parentWidth - scatterWidth - scatterMargin.left - scatterMargin.right - 2;
+                var lkaHeight = scatterHeight;
+
+                //Introduce the lka margin
+                var lkaMargin = {top: 20, right: 0, bottom: 10, left: 0},
+                lkaWidth = lkaWidth - lkaMargin.left - lkaMargin.right,
+                lkaHeight = lkaHeight - lkaMargin.top - lkaMargin.bottom;
+
+                //Set width and height of time axis
+                var tAxisWidth = 850;
+                var tAxisHeight = 90;
+
+                //Introduce the time axis margin
+                var tAxisMargin = {top: 35, right: 200, bottom: 10, left: 0},
+                tAxisWidth = tAxisWidth - tAxisMargin.left - tAxisMargin.right,
+                tAxisHeight = tAxisHeight - tAxisMargin.top - tAxisMargin.bottom;
+
+                // Various accessors that specify the four dimensions of data to visualize.
+                function x(d) {
+                    var scale;
+                    d3.selectAll(".control-interface input[name=distance]")[0].forEach(function (d) {
+                        if(d.checked) {
+                            scale =  d.value;
+                        }
+                    })
+                    if(scale == 'ly') {
+                        return +d.st_dist_ly;
+                    }
+                    else if (scale == 'pc') {
+                        return +d.st_dist;
+                    }
+                    else {
+                        return +d.st_dist_gen;
+                    }
+                }
+                function xLims() {
+                    var scale;
+                    d3.selectAll(".control-interface input[name=distance]")[0].forEach(function (d) {
+                        if(d.checked) {
+                            scale =  d.value;
+                        }
+                    });
+                    if(scale == 'ly') {
+                        return [0,11000];
+                    }
+                    else if (scale == 'pc') {
+                        return [0,3500];
+                    }
+                    else {
+                        return [0,400];
+                    }
+                }
+                function xLabel(d) {
+                    var scale;
+                    d3.selectAll(".control-interface input[name=distance]")[0].forEach(function (d) {
+                        if(d.checked) {
+                            scale =  d.value;
+                        }
+                    })
+                    if(scale == 'ly') {
+                        return +d.st_dist_ly + " ly";
+                    }
+                    else if (scale == 'pc') {
+                        return +d.st_dist + " pc";
+                    }
+                    else {
+                        return +d.st_dist_gen + " generations";
+                    }
+                }
+                function y(d) { return d.esi; }
+                function radius(d) { return d.pl_rade; }
+                function color(d) { return d.pl_type; }
+
+                var dist = [];
+                var dist_ly = [];
+                var dist_gen = [];
+                var esi = [];
+                var size = [];
+                var type = [];
+                var pl_name = [];
+                var temp = [];
+                var period = [];
+                var weight = [];
+                var selectedRadii = [];
+                var selectedID = [];
+                var selectedTime = [];
+                var selectedWeight = [];
+                var pl_disc_Year = [];
+                var textureList = [];
+                var squareColours = [];
+
+                var zoom;
+                var barNum = -1;
+
+                //Scales for x, y, r, type
+                var xScale = d3.scale.linear().domain([0,11000]).range([0, scatterWidth])
+                var yScale = d3.scale.linear().domain([0,1]).range([scatterHeight-20, 0]);
+
+                var graphArea = scatterWidth*scatterHeight;
+                var stdGraphArea = 900*500;
+                var displ_radii = [2,6,7,11];
+                //Calculate the radii of each type of planet according to the relative size of the graph area
+                displ_radii.forEach(function(d, i) {
+                    displ_radii[i] = d*Math.sqrt(graphArea/stdGraphArea);
+                });
+                var rScale = d3.scale.ordinal()
+                .domain(['Terran', 'Superterran', 'Neptunian', 'Jovian'])
+                .range(displ_radii);
+
+                var colorScale = d3.scale.category10();
+
+                // The x & y axes.
+                var xAxis = d3.svg.axis().orient("bottom").scale(xScale);//.tickFormat(d3.format(",d")).tickSize(-height);
+                var xAxisTicks = d3.svg.axis().orient("top").scale(xScale).tickSize(-scatterHeight+20);
+                var yAxis = d3.svg.axis().scale(yScale).orient("left").tickSize(-scatterWidth);
+
+                var planets;
+
+                var isZoomable = true;
+                var isDetectedMethodSelected = false;
+
+                //Create scatterplot area and store it in var scatterArea
+                var scatterArea = d3.select(".main-chart").append("svg").attr("class","scatter-plot")
+                .attr("width", scatterWidth + scatterMargin.left + scatterMargin.right)
+                .attr("height", scatterHeight + scatterMargin.top + scatterMargin.bottom)
+                .append("g")
+                    .attr("transform", "translate(" + scatterMargin.left + "," + scatterMargin.top + ")")
+
+                //Create right hand legend/key area and store it in var legendKeyArea
+                var legendKeyArea = d3.select(".main-chart").append("svg").attr("class","lk-area")
+                    .attr("width", lkaWidth + lkaMargin.left + lkaMargin.right)
+                    .attr("height", scatterHeight + scatterMargin.top + scatterMargin.bottom)
+                .append("g")
+
+                //
+                // //Create time axis area and store it in var tAxisArea
+                var tAxisArea = d3.select(".main-chart").append("svg").attr("class","tAxis-area")
+                    .attr("width", "83.5%")
+                    .attr("height", "11%")
+                    .attr("transform", "translate(100, 10)")
+                    .attr()
+                .append("g")
+
+                //Add Earth to the top of the screen
+                scatterArea.append("image")
+                .attr("class", "Earth-image")
+                .attr("transform", "translate(-60, -25)")
+                .attr("width", 40)
+                .attr("height", 50)
+                .attr("xlink:href", "Earth.png")
+
+                //*********************SCATTER PLOT CREATION************************//
+
+                d3.text("ESI_Data_FINAL_2.csv", "text/csv", function(unParsedData){
+
+                    //Populate data
+                    data = d3.csv.parse(unParsedData);
+                    function scatterInfo(element, index, array) {
+                        dist.push(+array[index].st_dist);
+                        dist_ly.push(+array[index].st_dist_ly);
+                        dist_gen.push(+array[index].st_dist_gen);
+                        esi.push(+array[index].esi);
+                        size.push(+array[index].pl_rade);
+                        type.push(array[index].pl_type);
+                        pl_name.push(array[index].pl_name);
+                        temp.push(+array[index].pl_eqt);
+                        period.push(+array[index].pl_orbper);
+                        weight.push(+array[index].pl_grave * 70);
+                        pl_disc_Year.push(+array[index].pl_disc);
+                    }
+                    data.forEach(scatterInfo);
+
+                    var tScale = d3.scale.linear()
+                              .domain([d3.min(temp), d3.max(temp)])
+                              .range(["#426ef0", "#ff0000"]);
+
+                    squareColours.push("#00ff00");
+                    squareColours.push("#ff00ff");
+                    squareColours.push("#00ccff");
+                    squareColours.push("#339966");
+                    squareColours.push("#ff9900");
+                    squareColours.push("#99ff66");
+                    squareColours.push("#996633");
+                    squareColours.push("#ffff00");
+                    squareColours.push("#666699");
+                    squareColours.push("#ff9966");
+
+                    var tip = d3.tip()
+                         .attr('class', 'd3-tip')
+                         .offset([50, 150])
+                         .html(function(d) {
+                           return "<span style='color:white'>" + "<center><b>" + d.pl_name + "</b></center>" + "\nType: " + d.pl_type
+                           + "\nRadius: " + d.pl_rade + " x Earth" + "\n1 Year: " + Math.round(d.pl_orbper * 100) / 100 + " Earth days"
+                           + "\nDistance: " + xLabel(d) + "\nESI: " + Math.round(d.esi * 1000) / 1000;
+                         });
+
+                    scatterArea.call(tip);
+
+                    var key = d3.select(".lk-area")
+          			var legend = key.append("defs")
+                      .append("svg:linearGradient")
+                      .attr("id", "gradient")
+                      .attr("x1", "100%")
+                      .attr("y1", "0%")
+                      .attr("x2", "100%")
+                      .attr("y2", "100%")
+                      .attr("spreadMethod", "pad");
+          			legend.append("stop")
+                      .attr("offset", "0%")
+                      .attr("stop-color", "#ff0000")
+                      .attr("stop-opacity", 1);
+          			legend.append("stop")
+                      .attr("offset", "100%")
+                      .attr("stop-color", "#426ef0")
+                      .attr("stop-opacity", 1);
+          			key.append("rect")
+                      .attr("width", 40)
+                      .attr("height", 300)
+                      .style("fill", "url(#gradient)")
+                      .attr("transform", "translate(0,"+scatterMargin.top+")");
+          			var legendy = d3.scale.linear()
+                      .range([300, 0])
+                      .domain([d3.min(temp), d3.max(temp)])
+                      .nice();
+          			var legendYAxis = d3.svg.axis().scale(legendy)
+                      .orient("right");
+          			key.append("g")
+                      .attr("class", "legend axis")
+                      .attr("transform", "translate(41,"+scatterMargin.top+")")
+                      .call(legendYAxis)
+                      .append("text")
+                      .attr("transform", "rotate(-90)")
+                      .attr("y", 50)
+                      .attr("dy", "0.7em")
+                      .style("text-anchor", "end")
+                      .text("Temperature (K)");
+
+                    key.append("image")
+                    .attr("class", "method-image")
+                    .attr("transform", "translate(0, 330)")
+                    .attr("width", 50)
+                    .attr("height", 60)
+                    .attr("xlink:href", "radio_telescope-512.png");
+
+                    scatterArea.append("g")
+                          .attr("class", "x axis ticks")
+                          .call(xAxisTicks)
+
+                    scatterArea.append("g")
+                          .attr("class", "x axis labels")
+                          .attr("transform", "translate(0," + scatterHeight + ")")
+                          .call(xAxis)
+                          .append("text")
+                              .attr("class", "x label")
+                              .attr("text-anchor", "middle")
+                              .attr("transform", "translate("+ (scatterWidth/2) +","+ 40 + ")")
+                              .attr("fill", "white")
+                          .text("Distance from Earth (ly)");
+
+                    //Append y axis
+                    scatterArea.append("g")
+                          .attr("class", "y axis")
+                          .call(yAxis)
+                          .append("text")
+                          .attr("class", "y label")
+                          .attr("text-anchor", "middle")
+                          .attr("transform", "translate("+ -25 +","+(scatterHeight/2)+")rotate(-90)")
+                          .attr("fill", "white")
+                          .text("Earth Similarity Index (ESI)");
+
+                    //Add area where planets are placed
+                    var planetArea = scatterArea.append("svg").attr("class","planets-area")
+                    .attr("width", scatterWidth)
+                    .attr("height", scatterHeight - 20);
+
+                    // Add a background rect for zooming.
+                    var zoomArea = planetArea.append("rect")
+                        .attr("class", "scatter-zoom-area")
+                        .attr("width", scatterWidth)
+                        .attr("height", scatterHeight)
+                        .attr("opacity", "0");
+
+                    var selectedSquares = planetArea.selectAll(".selected-sq")
+                        .data(data)
+                        .enter().append("rect")
+                        .attr("class", "selected-sq")
+                        .attr("visibility", "hidden")
+                        .call(positionSquares)
+                        .attr("id", function (d) { return d.rowid});
+
+                    //Create and place the planets on the scatterplot
+                    planets = planetArea.selectAll(".dot")
+                        .data(data)
+                        .enter().append("circle")
+                        .attr("class", "dot")
+                        .attr("clicked", 0)
+                        .attr("detectionSelected", 1)
+                        .attr("sizeSelected", 1)
+                        .call(position)
+                        .on("mouseover", function(d) {
+                            tip.show(d);
+                            d3.select(this).attr("fill", "yellow");
+
+                            //Create the intersects
+                            var x2 = xScale(x(d));
+                            var y2 = yScale(d.esi);
+                            var r = rScale(color(d));
+                            var xValScale = d3.scale.linear().domain([0,y2]).range([scatterHeight-y2 - 20, 0]);
+                            var yValScale = d3.scale.linear().domain([0,x2]).range([0,x2]);
+                            var xValAxis = d3.svg.axis().scale(xValScale).orient("right").ticks(0).tickSize(0);
+                            var yValAxis = d3.svg.axis().scale(yValScale).orient("bottom").ticks(0).tickSize(0);
+
+                            planetArea.append("g")
+                                  .attr("class", "Val-axis")
+                                  .attr("transform", "translate("+x2+","+y2+")")
+                                  .attr("stroke", "yellow")
+                                  .attr("stroke-width", 2)
+                                  .attr("fill", "none")
+                                  .call(xValAxis)
+
+
+                            planetArea.append("g")
+                                  .attr("class", "Val-axis")
+                                  .attr("transform", "translate(0,"+y2+")")
+                                  .attr("stroke", "yellow")
+                                  .attr("stroke-width", 2)
+                                  .attr("fill", "none")
+                                  .call(yValAxis)
+                        })
+                        .on('mouseout', function(d) {
+                            tip.hide(d);
+                            d3.select(this).attr("fill", function(d) { return tScale(d.pl_eqt); })
+
+                            //clear the intersects
+                            scatterArea.selectAll(".Val-axis").remove();
+                        })
+                        .on('click', function (d) {
+                            if (d3.select(this).attr("clicked") == 1) {
+                                barNum -= 1;
+                                var id = d.rowid;
+                                planetArea.selectAll(".selected-sq").data(data)
+                                .transition()
+                                .filter(function (d) {return d.rowid == id;})
+                                .attr("visibility", "hidden");
+                                d3.select(this).attr("stroke", "white");
+                                d3.select(this).attr("stroke-width", 1);
+
+                                d3.select(this).attr("fill", tScale(d.pl_eqt));
+                                d3.select(this).attr("clicked", 0);
+                                for (var i = 0; i < selectedID.length; i++) {
+                                    if (selectedID[i] == d.rowid) {
+                                        selectedRadii.splice(i, 1);
+                                        selectedID.splice(i, 1);
+                                        selectedTime.splice(i, 1);
+                                        selectedWeight.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                                updateBarChart(d);
+                                updateMassChart(d);
+                                updateTimeChart(d);
+                            }
+                            else {
+                              if (barNum < 9) {
+                                barNum += 1;
+                                var id = d.rowid;
+                                planetArea.selectAll(".selected-sq").data(data)
+                                .transition()
+                                .filter(function (d) {return d.rowid == id;})
+                                .style("fill", function (d) {
+                                  var t = textureList[barNum];
+                                  t.stroke(squareColours[barNum]);
+                                  planetArea.call(t);
+                                  return t.url();
+                                })
+                                .attr("stroke", function(d) {
+                                     return squareColours[barNum];
+                                })
+                                .attr("visibility", "visible");
+
+                                var sColour = squareColours[barNum];
+                                d3.select(this).attr("stroke", sColour);
+                                d3.select(this).attr("stroke-width", 2);
+                                selectedID.push(+d.rowid);
+                                selectedRadii.push(+d.pl_rade);
+                                selectedTime.push(+d.pl_orbper);
+                                selectedWeight.push(+d.pl_grave * 70);
+                                updateBarChart(d, sColour);
+                                updateMassChart(d, sColour);
+                                updateTimeChart(d, sColour);
+                                d3.select(this).attr("clicked", 1);
+                              }
+                            }
+                        })
+                        .attr("stroke", "white")
+                        .attr("fill", function(d) { return tScale(d.pl_eqt); })
+
+                    //Setup the Zoom functionality
+                    zoom = d3.behavior.zoom()
+                        .x(xScale)
+                        .y(yScale)
+                        .scaleExtent([1, 100])
+                        .on("zoom", zoomed);
+
+                    function zoomed() {
+                        var x_min_max = xLims();
+                        var xmin = x_min_max[0];
+                        var xmax = x_min_max[1];
+                        var ymin = 0;
+                        var ymax = 1;
+                        if (xScale.domain()[0] < xmin) {
+                            zoom.translate([zoom.translate()[0] - xScale(xmin) + xScale.range()[0], zoom.translate()[1]]);
+                        } else if (xScale.domain()[1] > xmax) {
+                            zoom.translate([zoom.translate()[0] - xScale(xmax) + xScale.range()[1], zoom.translate()[1]]);
+                        }
+                        if (yScale.domain()[0] < ymin) {
+                            zoom.translate([zoom.translate()[0], zoom.translate()[1] - yScale(ymin) + yScale.range()[0]]);
+                        } else if (yScale.domain()[1] > ymax) {
+                            zoom.translate([zoom.translate()[0], zoom.translate()[1] - yScale(ymax) + yScale.range()[1]]);
+                        }
+                        scatterArea.select(".x.axis.labels").call(xAxis);
+                        scatterArea.select(".x.axis.ticks").call(xAxisTicks);
+                        scatterArea.select(".y.axis").call(yAxis);
+
+                        planets.call(position);
+                        selectedSquares.call(positionSquares);
+                    }
+
+                    planetArea.call(zoom);
+
+                    //Positions selection squares
+                    function positionSquares(selectedSquares) {
+                        var squareSize = 30;
+                        selectedSquares.attr("x", function(d) { return (xScale(x(d)) - squareSize/2); })
+                            .attr("y", function(d) { return (yScale(y(d)) - squareSize/2); })
+                            .attr("width", squareSize)
+                            .attr("height", squareSize);
+                    }
+
+                    // Positions the planets
+                    function position(planets) {
+                        planets.attr("cx", function(d) { return xScale(x(d)); })
+                            .attr("cy", function(d) { return yScale(y(d)); })
+                            .attr("r", function(d) { return rScale(color(d)); });
+                    }
+
+                    //Time Scale Slider
+
+                    formatDate = d3.time.format("%Y");
+                    var minYear = d3.min(pl_disc_Year) - 1;
+                    var maxYear = d3.max(pl_disc_Year);
+                    // scale function
+                    var timeScale = d3.time.scale()
+                      .domain([new Date(minYear + ''), new Date(maxYear + '')])
+                      .range([60, tAxisWidth + 60])
+                      .clamp(true);
+
+                    // initial value
+                    var startValue = timeScale(new Date('2016'));
+                    startingValue = new Date('2016-03-20');
+
+                    // defines brush
+                    var brush = d3.svg.brush()
+                      .x(timeScale)
+                      .extent([startingValue, startingValue])
+                      .on("brush", brushed);
+
+                    var tAxis = tAxisArea.append("g")
+                      .attr("class", "t axis");
+                    tAxis.attr("transform", "translate("+tAxisMargin.left +"," + tAxisMargin.top + ")")
+
+                    // introduce axis
+                    .call(d3.svg.axis()
+                      .scale(timeScale)
+                      .orient("bottom")
+                      .tickFormat(function(d) {
+                        return formatDate(d);
+                      })
+                      .tickSize(0)
+                      .tickPadding(18)
+                      .tickValues([timeScale.domain()[0], timeScale.domain()[1]]))
+                      .select(".domain")
+                      .select(function() {
+                        return this.parentNode.appendChild(this.cloneNode(true));
+                      })
+                      .attr("class", "halo");
+
+                    tAxis.append("text")
+                        .attr("class", "t axis label")
+                        .attr("text-anchor", "middle")
+                        .attr("transform", "translate("+ ((tAxisWidth + 60)/2)  +","+ 30 + ")")
+                        .attr("fill", "white")
+                    .text("Planet Discovery Time Slider")
+
+                    var slider = tAxisArea.append("g")
+                      .attr("class", "slider")
+                      .attr("transform", "translate(-5," + (tAxisMargin.top/2) + ")")
+                      .call(brush);
+
+                    slider.selectAll(".extent,.resize")
+                      .remove();
+
+                    var handle = slider.append("g")
+                      .attr("class", "handle")
+
+                    handle.append("image")
+                    .attr("xlink:href", "handle.vertical.png")
+                    .attr("width", 15)
+                    .attr("height", 31);
+
+                    handle.append("text")
+                      .text(startingValue)
+                      .attr("transform", "translate(" + (-11) + " ," + (-5) + ")");
+
+                    slider.call(brush.event);
+
+                    function brushed() {
+                      var value = brush.extent()[0];
+
+                      if (d3.event.sourceEvent) { // not a programmatic event
+                        value = timeScale.invert(d3.mouse(this)[0]);
+                        brush.extent([value, value]);
+                      }
+
+                      handle.attr("transform", "translate(" + timeScale(value)  + ",0)");
+                      handle.select('text').text(formatDate(value));
+
+                    var currYear = +d3.select(".handle").text();
+                    planets.data(data)
+                    .filter(function(d){
+                        planetDiscYear = +d.pl_disc;
+                        return planetDiscYear <= currYear})
+                    .attr("opacity", 1);
+
+                    planets.data(data)
+                    .filter(function(d){return +d.pl_disc > currYear})
+                    .attr("opacity", 0.3);
+                    }
+
+                    //This method gets called every time a new distance radio button is selected
+                    d3.selectAll(".control-interface input[name=distance]").on("change", function() {
+                        //Update x-axis label
+                        scatterArea.select("g.x.axis text.label").text("Distance from Earth (" + this.value + ")");
+                        //Update the x domain
+                        //Update the x axis
+                        //Update the planet position based on the scale
+                        if (this.value == 'pc') {
+                            xScale.domain([0, 3500]).nice;
+                            yScale.domain([0,1]);
+                            zoom = d3.behavior.zoom()
+                                .x(xScale)
+                                .y(yScale)
+                                .scaleExtent([1, 100])
+                                .on("zoom", zoomed);
+                            planetArea.call(zoom);
+                            planets.transition().call(position);
+                            selectedSquares.transition().call(positionSquares);
+                            scatterArea.select(".x.axis.labels").call(xAxis);
+                            scatterArea.select(".x.axis.ticks").call(xAxisTicks);
+                            scatterArea.select(".y.axis").call(yAxis);
+                        }
+                        else if (this.value == 'ly') {
+                            xScale.domain([0, 11000]).nice();
+                            yScale.domain([0,1]);
+                            zoom = d3.behavior.zoom()
+                                .x(xScale)
+                                .y(yScale)
+                                .scaleExtent([1, 100])
+                                .on("zoom", zoomed);
+                            planetArea.call(zoom);
+                            planets.transition().call(position);
+                            selectedSquares.transition().call(positionSquares);
+                            scatterArea.select(".x.axis.labels").call(xAxis);
+                            scatterArea.select(".y.axis").call(yAxis);
+                        }
+                        else {
+                            xScale.domain([0, 400]).nice();
+                            yScale.domain([0,1]);
+                            zoom = d3.behavior.zoom()
+                                .x(xScale)
+                                .y(yScale)
+                                .scaleExtent([1, 100])
+                                .on("zoom", zoomed);
+                            planetArea.call(zoom);
+                            planets.transition().call(position);
+                            selectedSquares.transition().call(positionSquares);
+                            scatterArea.select(".x.axis.labels").call(xAxis);
+                            scatterArea.select(".x.axis.ticks").call(xAxisTicks);
+                            scatterArea.select(".y.axis").call(yAxis);
+
+                        }
+                    });
+
+                    //Method to filter out selections
+                    d3.selectAll(".control-interface input[name=detection], .control-interface input[name= size]").on("change", function(d) {
+                        var selections = d3.selectAll(".control-interface input[name=detection], .control-interface input[name= size]")[0];
+                        selections.forEach(function (d) {
+                            if(d.checked == false) {
+                                if(d.name == "detection") {
+                                    planets.filter(function (p) {return p.pl_discmethod == d.value})
+                                           .attr("detectionSelected", 0)
+                                           .attr("visibility", "hidden");
+                                }
+                                else {
+                                    planets.filter(function (p) {return p.pl_type == d.value})
+                                           .attr("sizeSelected", 0)
+                                           .attr("visibility", "hidden")
+                                }
+                            }
+                            else {
+                                if(d.name == "detection") {
+                                    planets.filter(function (p) {return p.pl_discmethod == d.value})
+                                           .attr("detectionSelected", 1);
+                                }
+                                else {
+                                    planets.filter(function (p) {return p.pl_type == d.value})
+                                           .attr("sizeSelected", 1);
+                                }
+
+                                planets.each(function (d) {
+                                    var planet = d3.select(this);
+                                    if ((planet.attr("detectionSelected") == 1)&(planet.attr("sizeSelected") == 1)) {
+                                        planet.attr("visibility", "visible");
+                                    }
+                                })
+                            }
+                        })
+                    })
+
+                    //*********************BAR CHARTS************************//
+                    var t = textures.lines();
+                    textureList.push(t);
+
+                    t = textures.paths()
+                      .d("crosses")
+                      .lighter()
+                      .thicker();
+                    textureList.push(t);
+
+                    t = textures.lines()
+                        .thicker();
+                    textureList.push(t);
+
+                    t = textures.lines()
+                        .orientation("3/8", "7/8");
+                    textureList.push(t);
+
+                    t = textures.lines()
+                        .heavier(10)
+                        .thinner(1.5);
+                    textureList.push(t);
+
+                    t = textures.lines()
+                        .size(4)
+                        .strokeWidth(1);
+                    textureList.push(t);
+
+                    t = textures.paths()
+                      .d("hexagons")
+                      .size(8)
+                      .strokeWidth(2);
+                    textureList.push(t);
+
+                    t = textures.paths()
+                      .d("squares");
+                    textureList.push(t);
+
+                    t = textures.circles()
+                      .radius(4)
+                      .fill("transparent")
+                      .strokeWidth(2);
+                    textureList.push(t);
+
+                    t = textures.paths()
+                      .d("waves")
+                      .thicker();
+                    textureList.push(t);
+
+                    w = 416;
+                    h = 300;
+
+                    var barPadding = 3;
+
+                    var barXScale = d3.scale.linear()
+                             .domain([0, selectedRadii.length])
+                             .range([30, w]);
+
+                    var barXaxis = d3.svg.axis()
+                         .scale(barXScale)
+                         .orient("bottom");
+
+                   var barYScale = d3.scale.linear()
+                           .domain([0, d3.max(size)])
+                           .range([h - 5, 50])
+                           .nice();
+
+                   var barYaxis = d3.svg.axis()
+                        .scale(barYScale)
+                        .orient("left");
+
+                   var bar = d3.select("body")
+                    .append("svg")
+                    .attr("class", "radii-comp")
+
+                    bar.append("text")
+                        .attr("class", "heading")
+                        .attr("text-anchor", "middle")
+                        .attr("transform", "translate("+ (w/2) +","+ 30 +")")
+                        .attr("fill", "white")
+                        .text("Radius (Earth Radii)");
+
+                   var mass = d3.select("body")
+                   .append("svg")
+                   .attr("class", "weight-comp")
+
+                   mass.append("text")
+                       .attr("class", "heading")
+                       .attr("text-anchor", "middle")
+                       .attr("transform", "translate("+ (w/2) +","+ 30 +")")
+                       .attr("fill", "white")
+                       .text("Your Weight On Each Exoplanet (kg)");
+
+                   var time = d3.select("body")
+                   .append("svg")
+                   .attr("class", "year-comp")
+
+                   time.append("text")
+                       .attr("class", "heading")
+                       .attr("text-anchor", "middle")
+                       .attr("transform", "translate("+ (w/2) +","+ 30 +")")
+                       .attr("fill", "white")
+                       .text("Length of a Year (Earth days)");
+
+                    bar.append("g")
+                      .attr("class", "barXaxis")
+                      .attr("transform", "translate(0," + h + ")")
+                      .call(barXaxis);
+
+                    bar.append("g")
+                        .attr("class", "barYaxis")
+                        .attr("transform", "translate(" + 25 + ",0)")
+                        .call(barYaxis);
+
+                    var massYScale = d3.scale.linear()
+                            .domain([0, d3.max(weight)])
+                            .range([h - 5, 50])
+                            .nice();
+
+                    var massYaxis = d3.svg.axis()
+                         .scale(massYScale)
+                         .orient("left");
+
+                    mass.append("g")
+                      .attr("class", "barXaxis")
+                      .attr("transform", "translate(0," + h + ")")
+                      .call(barXaxis);
+
+                    mass.append("g")
+                        .attr("class", "massYaxis")
+                        .attr("transform", "translate(" + 40 + ",0)")
+                        .call(massYaxis);
+
+                    var timeYScale = d3.scale.linear()
+                            .domain([0, d3.max(period)])
+                            .range([h - 5, 50])
+                            .nice();
+
+                    var timeYaxis = d3.svg.axis()
+                         .scale(timeYScale)
+                         .orient("left");
+
+                    time.append("g")
+                      .attr("class", "barXaxis")
+                      .attr("transform", "translate(0," + h + ")")
+                      .call(barXaxis);
+
+                    time.append("g")
+                        .attr("class", "timeYaxis")
+                        .attr("transform", "translate(" + 30 + ",0)")
+                        .call(timeYaxis);
+
+                    function updateBarChart(d, colour) {
+
+                      bar.selectAll("rect").remove();
+
+                      barXScale.domain([0, selectedRadii.length])
+                                .range([30, w]);
+
+                      if (selectedRadii.length > 0) {
+                        barYScale.domain([0, d3.max(selectedRadii)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+                      else {
+                        barYScale.domain([0, d3.max(size)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+
+                      barYaxis.scale(barYScale);
+
+                      var barchart = bar.selectAll("rect")
+                         .data(selectedRadii);
+
+                      barchart.attr("x", function(d, i) {
+                        return (i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding);
+                      })
+                      .attr("width", (w - 30) / 10 - barPadding)
+                      .attr("y", function(d) {
+                          return barYScale(d);
+                      })
+                      .attr("height", function(d) {
+                       return h - barYScale(d);
+                      });
+                      bar.select(".barYaxis")
+                         .call(barYaxis);
+
+                      barchart.enter()
+                         .append("rect")
+                         .style("fill", function (d, i) {
+                           var t = textureList[i];
+                           t.stroke(squareColours[i]);
+                           bar.call(t);
+                           return t.url();
+                         })
+                         .attr("stroke", function(d, i) {
+                              return squareColours[i];
+                         })
+                         .attr("x", function(d, i) {
+                              return ((i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding)) + 10;
+                          })
+                          .attr("y", function(d) {
+                              return barYScale(d);
+                          })
+                         .attr("width", (w - 30) / 10 - barPadding)
+                         .attr("height", function(d) {
+                            return h - barYScale(d);
+                      });
+                    }
+
+                    function updateMassChart(d, colour) {
+
+                      mass.selectAll("rect").remove();
+
+                      barXScale.domain([0, selectedWeight.length])
+                                .range([30, w]);
+
+                      if (selectedWeight.length > 0) {
+                        massYScale.domain([0, d3.max(selectedWeight)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+                      else {
+                        massYScale.domain([0, d3.max(weight)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+
+                      massYaxis.scale(massYScale);
+
+                      var barchart = mass.selectAll("rect")
+                         .data(selectedWeight);
+
+                      barchart.attr("x", function(d, i) {
+                        return ((i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding)) + 100;
+                      })
+                      .attr("width", (w - 30) / 10 - barPadding)
+                      .attr("y", function(d) {
+                          return massYScale(d);
+                      })
+                      .attr("height", function(d) {
+                       return h - massYScale(d);
+                      });
+                      mass.select(".massYaxis")
+                         .call(massYaxis);
+
+                      barchart.enter()
+                         .append("rect")
+                         .style("fill", function (d, i) {
+                           var t = textureList[i];
+                           t.stroke(squareColours[i]);
+                           bar.call(t);
+                           return t.url();
+                         })
+                         .attr("stroke", function(d, i) {
+                           return squareColours[i];
+                         })
+                         .attr("x", function(d, i) {
+                              return ((i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding)) + 25;
+                          })
+                          .attr("y", function(d) {
+                              return massYScale(d);
+                          })
+                         .attr("width", (w - 30) / 10 - barPadding)
+                         .attr("height", function(d) {
+                            return h - massYScale(d);
+                      });
+                    }
+
+                    function updateTimeChart(d, colour) {
+
+                      time.selectAll("rect").remove();
+
+                      if (selectedTime.length > 0) {
+                        timeYScale.domain([0, d3.max(selectedTime)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+                      else {
+                        timeYScale.domain([0, d3.max(period)])
+                                .range([h - 5, 50])
+                                .nice();
+                      }
+
+                      timeYaxis.scale(timeYScale);
+
+                      var barchart = time.selectAll("rect")
+                         .data(selectedTime);
+
+                      barchart.attr("x", function(d, i) {
+                        return ((i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding)) + 5;
+                      })
+                      .attr("width", (w - 35) / 10 - barPadding)
+                      .attr("y", function(d) {
+                          return timeYScale(d);
+                      })
+                      .attr("height", function(d) {
+                       return h - timeYScale(d);
+                      });
+                      time.select(".timeYaxis")
+                         .call(timeYaxis);
+
+                      barchart.enter()
+                         .append("rect")
+                         .style("fill", function (d, i) {
+                           var t = textureList[i];
+                           t.stroke(squareColours[i]);
+                           bar.call(t);
+                           return t.url();
+                         })
+                         .attr("stroke", function(d, i) {
+                           return squareColours[i];
+                         })
+                         .attr("x", function(d, i) {
+                              return ((i * ((w - 30) / 10 - barPadding)) + (0.5 * ((w - 30) / 10 - barPadding)) + ((i + 1) * barPadding)) + 15;
+                          })
+                          .attr("y", function(d) {
+                              return timeYScale(d);
+                          })
+                         .attr("width", (w - 35) / 10 - barPadding)
+                         .attr("height", function(d) {
+                            return h - timeYScale(d);
+                      });
+                    }
+                });
+            </script>
+        </div>
+    </body>
+</html>
